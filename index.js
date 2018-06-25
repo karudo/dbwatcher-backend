@@ -5,8 +5,8 @@ const app = express();
 app.set('port', process.env.PORT || 4242);
 app.use(bodyParser.json());
 
-app.use((req, res) => {
-  res.send(`it is working!`);
+app.get('/schema', (req, res) => {
+  res.json({schema: 'example'});
 });
 
 app.listen(app.get('port'), () => {
