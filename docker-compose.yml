@@ -8,8 +8,12 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    volumes:
+    - "./tmp/pgdata:/var/lib/postgresql/data"
 
   mongo:
-    image: mongo
+    image: mongo:4.0.1
     ports:
-    - "27017:27017"
+      - "27017:27017"
+    volumes:
+      - "./tmp/mongodata:/data/db"
