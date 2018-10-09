@@ -1,8 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const {createRPC} = require('./lib/rpc.js');
+import express from 'express';
+import bodyParser from 'body-parser'
+import {createRPC} from './lib/rpc'
 
 const app = express();
+
 app.set('port', process.env.PORT || 4242);
 app.use(bodyParser.json());
 
