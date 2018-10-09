@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser'
 import {createRPC} from './lib/rpc'
+import {queryMongo} from './lib/mongo'
+import {gearJson} from 'gear-json'
 
 const app = express();
 
@@ -16,7 +18,12 @@ app.post('/rpc', createRPC({
     return {
       withArgs: args
     }
-  }
+  },
+  async testMongo (args) {
+    const res = await queryMongo();
+
+    return gearJson.packObject(res)
+  },
 }));
 
 app.listen(app.get('port'), () => {
