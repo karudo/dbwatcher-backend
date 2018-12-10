@@ -40,7 +40,7 @@ const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
   async deleteByPk (ctx, pi, pk) {
     return 0
   },
-  collections: []
+  collections: {}
 };
 
 export default collectionCollection;

@@ -18,7 +18,9 @@ class MongoDriverInstance implements DriverInstance<MongoContext> {
 
   async getSchema () {
     return {
-      collections: [collDatabase]
+      collections: {
+        databases: collDatabase,
+      },
     }
   }
 

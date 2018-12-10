@@ -4,10 +4,6 @@ export type CollectionPathInfo = {
   [collName: string]: PkValue
 }
 
-export type DriverSchema = {
-  collections: Collection<InstanceContext, CollectionPathInfo>[]
-}
-
 export type DriverProp = {
   type: string
   code: string
@@ -28,7 +24,7 @@ export type InstanceContext = {
 
 export type Collection<TContext extends InstanceContext, TPathInfo extends CollectionPathInfo> = {
   name: string
-  collections: Collection<TContext, CollectionPathInfo>[]
+  collections: CollectionsMap<TContext>
   parseCollPath (cp: CollPath): TPathInfo
   getElementSchema (ctx: TContext, pathInfo: TPathInfo): Promise<CollectionElementSchema>
   // beforeExec? (ctx: TContext, pi: TPathInfo): Promise<void>
@@ -40,13 +36,21 @@ export type Collection<TContext extends InstanceContext, TPathInfo extends Colle
   deleteByPk (ctx: TContext, pathInfo: TPathInfo, pk: PkValue): Promise<number>
 }
 
+export type CollectionsMap<TContext extends InstanceContext> = {
+  [name: string]: Collection<TContext, CollectionPathInfo>
+}
+
+export type DriverSchema<TContext extends InstanceContext> = {
+  collections: CollectionsMap<TContext>
+}
+
 export type DriverInstanceConstructor<TContext extends InstanceContext> = {
   new (params: object): DriverInstance<TContext>
 }
 
 export type DriverInstance<TContext extends InstanceContext> = {
   connect (): Promise<TContext>
-  getSchema (): Promise<DriverSchema>
+  getSchema (): Promise<DriverSchema<TContext>>
   close (): Promise<boolean>
 }
 
