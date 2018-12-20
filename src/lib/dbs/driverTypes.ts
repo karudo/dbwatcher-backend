@@ -6,7 +6,7 @@ export type CollectionPathInfo = {
 
 export type DriverProp = {
   type: string
-  code: string
+  key: string
   name: string
   required?: Boolean
   password?: Boolean

@@ -3,20 +3,20 @@ import {DriverProp} from '../driverTypes';
 const props: DriverProp[] = [
   {
     type: 'string',
-    code: 'host',
+    key: 'host',
     name: 'Host',
     required: true,
   },
   {
     type: 'number',
-    code: 'port',
+    key: 'port',
     name: 'Port',
     required: true,
     default: 27017,
   },
   {
     type: 'string',
-    code: 'db',
+    key: 'db',
     name: 'DB',
   },
 ];
