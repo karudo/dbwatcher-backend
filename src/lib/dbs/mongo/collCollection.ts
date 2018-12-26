@@ -16,14 +16,13 @@ const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
       pk: '_id',
     }
   },
-  parseCollPath (cp) {
-    return {
-      database: 'q',
-      collection: 's',
-    }
+  parseCollPath (collPath) {
+    return Object.assign({}, ...collPath.map(cp => ({[cp.collection]: cp.pk})))
   },
   async query (ctx, pi, params) {
-    return []
+    const coll = ctx.getColl(pi.databases, pi.collections);
+    const res = await coll.find().toArray();
+    return res
   },
   async count (ctx, pi, params) {
     return 0

@@ -17,16 +17,13 @@ const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
       pk: 'name',
     }
   },
-  parseCollPath (cp) {
-    return {
-      database: 'q',
-      collection: 's',
-    }
+  parseCollPath (collPath) {
+    return Object.assign({}, ...collPath.map(cp => ({[cp.collection]: cp.pk})))
   },
   async query (ctx, pi, params) {
-    const db = ctx.getDb(pi.database).admin();
+    const db = ctx.getDb(pi.databases).admin();
     const list = await db.listDatabases();
-    return list.map((i: any) => ({name: i.name}))
+    return list.databases.map((i: any) => ({name: i.name}))
   },
   async count (ctx, pi, params) {
     return 0
@@ -44,7 +41,7 @@ const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
     return 0
   },
   collections: {
-    databases: collCollection
+    collections: collCollection
   }
 };
 

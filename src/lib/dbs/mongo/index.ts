@@ -5,14 +5,21 @@ import MongoContext from './context';
 import driverProps from './driverProps';
 import collDatabase from './collDatabase';
 
+type Params = {
+  host: string,
+  port: number,
+  db: string,
+}
+
 class MongoDriverInstance implements DriverInstance<MongoContext> {
-  private params: object;
+  private params: Params;
   constructor (params: object) {
-    this.params = params;
+    this.params = params as Params;
   }
 
   async connect () {
-    const client = await MongoClient.connect('url', {useNewUrlParser: true});
+    const url = `'mongodb://${this.params.host}:${this.params.port}'`;
+    const client = await MongoClient.connect(url, {useNewUrlParser: true});
     return new MongoContext(client)
   }
 
@@ -22,10 +29,6 @@ class MongoDriverInstance implements DriverInstance<MongoContext> {
         databases: collDatabase,
       },
     }
-  }
-
-  async close () {
-    return false
   }
 }
 
