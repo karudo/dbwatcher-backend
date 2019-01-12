@@ -28,8 +28,8 @@ export class DriverInstancesManager {
     const pasture = this.pastures[pastureCode];
     if (!this.instances.has(pasture.type)) {
       const instance = await this.drivers[pasture.type].getInstance(pasture.params);
-      const schema = await instance.getSchema();
       const context = await instance.connect();
+      const schema = await context.getSchema();
       this.instances.set(pasture.type, {
         instance,
         schema,
@@ -39,14 +39,14 @@ export class DriverInstancesManager {
     return this.instances.get(pasture.type) as ConnectedInstance;
   }
 
-  async runMethod (pastureCode: string, path: CollPath, method: keyof CollectionMethods<InstanceContext, CollectionPathInfo>, args: object) {
+  async runMethod (pastureCode: string, path: CollPath, method: keyof CollectionMethods<InstanceContext, CollectionPathInfo>, ...args: any[]) {
     const i = await this.getInstance(pastureCode);
     const collection: Collection<InstanceContext, CollectionPathInfo> = path.reduce((sc, step) => {
       return sc.collections[step.collection]
     }, i.schema as Collection<InstanceContext, CollectionPathInfo>);
     const pathInfo = collection.parseCollPath(path);
+    console.log(pathInfo)
     // @ts-ignore
-    const result = await collection[method](i.context, pathInfo, args)
-    return result
+    return await collection[method](i.context, pathInfo, ...args);
   }
 }

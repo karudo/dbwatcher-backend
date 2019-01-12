@@ -19,6 +19,7 @@ export type CollPath = {
 }[]
 
 export type InstanceContext = {
+  getSchema (): Promise<DriverSchema<InstanceContext>>
   close (): Promise<void>
 }
 
@@ -53,7 +54,6 @@ export type DriverInstanceConstructor<TContext extends InstanceContext> = {
 
 export type DriverInstance<TContext extends InstanceContext> = {
   connect (): Promise<TContext>
-  getSchema (): Promise<DriverSchema<TContext>>
 }
 
 export type DriverMain<TContext extends InstanceContext> = {

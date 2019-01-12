@@ -1,5 +1,6 @@
 import {Collection as MongoCollection, Db as MongoDb, MongoClient} from 'mongodb';
 import {InstanceContext} from '../driverTypes';
+import collDatabase from './collDatabase';
 
 export default class MongoContext implements InstanceContext {
   public client: MongoClient;
@@ -26,6 +27,14 @@ export default class MongoContext implements InstanceContext {
     }
     return this.collMap.get(name) as MongoCollection;
    }
+
+  async getSchema () {
+    return {
+      collections: {
+        databases: collDatabase,
+      },
+    }
+  }
 
    async close () {
     this.dbMap.clear();

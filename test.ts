@@ -24,4 +24,4 @@ const drivers: Drivers = {
 const m =  new DriverInstancesManager(pastures, drivers);
 m.runMethod('mongo1', [{collection: 'databases', pk: 'traktors'}, {collection: 'collections', pk: 'users'}], 'query', {}).then(x => {
   console.log(x)
-});
+}).catch(e => console.log(e));
