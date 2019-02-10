@@ -1,0 +1,10 @@
+{
+  "mongo1": {
+    "type": "mongo",
+    "params": {
+      "host": "localhost",
+      "port": 27017,
+      "db": "qwe"
+    }
+  }
+}

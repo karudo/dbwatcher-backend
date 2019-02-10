@@ -9,50 +9,49 @@ export type Pastures = {
 
 export type Drivers = {[key: string]: DriverMain<InstanceContext>};
 
+/*
 type ConnectedInstance = {
-  instance: DriverInstance<InstanceContext>,
+  // instance: DriverInstance<InstanceContext>,
   schema: DriverSchema<InstanceContext>,
   context: InstanceContext,
 };
-type Instances = Map<string, Promise<ConnectedInstance>>;
+*/
+// type Instances = Map<string, Promise<ConnectedInstance>>;
+type ConnectedContexts = Map<string, Promise<InstanceContext>>;
+
 
 export class DriverInstancesManager {
   private readonly pastures: Pastures;
   private drivers: Drivers;
-  private instances: Instances = new Map();
+  private instances: ConnectedContexts = new Map();
   constructor (pastures: Pastures, drivers: Drivers) {
     this.pastures = pastures;
     this.drivers = drivers;
   }
 
-  async createInstance (pasture: Pasture) {
+  async connect (pasture: Pasture) {
     const instance = await this.drivers[pasture.type].getInstance(pasture.params);
     const context = await instance.connect();
-    const schema = await context.getSchema();
-    return {
-      instance,
-      context,
-      schema,
-    }
+    //const schema = await context.getSchema();
+    return context;
   }
 
-  getInstance (pastureCode: string): Promise<ConnectedInstance> {
+  getContext (pastureCode: string): Promise<InstanceContext> {
     const pasture = this.pastures[pastureCode];
     if (!this.instances.has(pasture.type)) {
-      this.instances.set(pasture.type, this.createInstance(pasture))
+      this.instances.set(pasture.type, this.connect(pasture))
     }
-    return this.instances.get(pasture.type) as Promise<ConnectedInstance>;
+    return this.instances.get(pasture.type) as Promise<InstanceContext>;
   }
 
-  async runMethod (pastureCode: string, path: CollPath, method: keyof CollectionMethods<InstanceContext, CollectionPathInfo>, ...args: any[]) {
-    const i = await this.getInstance(pastureCode);
+  async runCollectionMethod (pastureCode: string, path: CollPath, method: string, args: object) {
+    const ctx = await this.getContext(pastureCode);
+    const schema = await ctx.getSchema();
     const collection: Collection<InstanceContext, CollectionPathInfo> = path.reduce(
       (sc, step) => sc.collections[step.collection],
-      i.schema as Collection<InstanceContext, CollectionPathInfo>
+      schema as Collection<InstanceContext, CollectionPathInfo>
     );
     const pathInfo = collection.parseCollPath(path);
-    console.log(pathInfo);
-    // @ts-ignore
-    return await collection.methods[method](i.context, pathInfo, ...args);
+    return await collection.methods[method as keyof CollectionMethods<InstanceContext, CollectionPathInfo>](ctx, pathInfo, args as any);
   }
 }

@@ -24,24 +24,24 @@ const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
     collections: collCollection
   },
   methods: {
-    async query (ctx, pi, params) {
+    async query (ctx, pi, args) {
       const db = ctx.getDb(pi.databases).admin();
       const list = await db.listDatabases();
       return list.databases.map((i: any) => ({name: i.name}))
     },
-    async count (ctx, pi, params) {
+    async count (ctx, pi, args) {
       return 0
     },
-    async getByPk (ctx, pi, pk) {
+    async getByPk (ctx, pi, {pk}) {
       return {}
     },
-    async add (ctx, pi, el) {
+    async add (ctx, pi, {el}) {
       return 0
     },
-    async updateByPk (ctx, pi, pk, update) {
+    async updateByPk (ctx, pi, {pk, update}) {
       return 0
     },
-    async deleteByPk (ctx, pi, pk) {
+    async deleteByPk (ctx, pi, {pk}) {
       return 0
     },
   },

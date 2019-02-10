@@ -25,12 +25,12 @@ export type InstanceContext = {
 
 export type CollectionMethods<TContext, TPathInfo> = {
   // beforeExec? (ctx: TContext, pi: TPathInfo): Promise<void>
-  query (ctx: TContext, pathInfo: TPathInfo, params: object): Promise<object[]>
-  count (ctx: TContext, pathInfo: TPathInfo, params: object): Promise<number>
-  getByPk (ctx: TContext, pathInfo: TPathInfo, pk: PkValue): Promise<object>
-  add (ctx: TContext, pathInfo: TPathInfo, el: object): Promise<PkValue>
-  updateByPk (ctx: TContext, pathInfo: TPathInfo, pk: PkValue, update: object): Promise<number>
-  deleteByPk (ctx: TContext, pathInfo: TPathInfo, pk: PkValue): Promise<number>
+  query (ctx: TContext, pathInfo: TPathInfo, args: object): Promise<object[]>
+  count (ctx: TContext, pathInfo: TPathInfo, args: object): Promise<number>
+  getByPk (ctx: TContext, pathInfo: TPathInfo, args: {pk: PkValue}): Promise<object>
+  add (ctx: TContext, pathInfo: TPathInfo, args: {el: object}): Promise<PkValue>
+  updateByPk (ctx: TContext, pathInfo: TPathInfo, args: {pk: PkValue, update: object}): Promise<number>
+  deleteByPk (ctx: TContext, pathInfo: TPathInfo, args: {pk: PkValue}): Promise<number>
 }
 
 export type Collection<TContext extends InstanceContext, TPathInfo extends CollectionPathInfo> = {

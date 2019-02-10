@@ -21,24 +21,24 @@ const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
   },
   collections: {},
   methods: {
-    async query (ctx, pi, params) {
+    async query (ctx, pi, args) {
       const coll = ctx.getColl(pi.databases, pi.collections);
       const res = await coll.find().toArray();
       return res
     },
-    async count (ctx, pi, params) {
+    async count (ctx, pi, args) {
       return 0
     },
-    async getByPk (ctx, pi, pk) {
+    async getByPk (ctx, pi, {pk}) {
       return {}
     },
-    async add (ctx, pi, el) {
+    async add (ctx, pi, {el}) {
       return 0
     },
-    async updateByPk (ctx, pi, pk, update) {
+    async updateByPk (ctx, pi, {pk, update}) {
       return 0
     },
-    async deleteByPk (ctx, pi, pk) {
+    async deleteByPk (ctx, pi, {pk}) {
       return 0
     },
   },
