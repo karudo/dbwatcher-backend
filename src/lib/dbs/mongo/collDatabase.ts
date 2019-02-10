@@ -20,29 +20,31 @@ const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
   parseCollPath (collPath) {
     return Object.assign({}, ...collPath.map(cp => ({[cp.collection]: cp.pk})))
   },
-  async query (ctx, pi, params) {
-    const db = ctx.getDb(pi.databases).admin();
-    const list = await db.listDatabases();
-    return list.databases.map((i: any) => ({name: i.name}))
-  },
-  async count (ctx, pi, params) {
-    return 0
-  },
-  async getByPk (ctx, pi, pk) {
-    return {}
-  },
-  async add (ctx, pi, el) {
-    return 0
-  },
-  async updateByPk (ctx, pi, pk, update) {
-    return 0
-  },
-  async deleteByPk (ctx, pi, pk) {
-    return 0
-  },
   collections: {
     collections: collCollection
-  }
+  },
+  methods: {
+    async query (ctx, pi, params) {
+      const db = ctx.getDb(pi.databases).admin();
+      const list = await db.listDatabases();
+      return list.databases.map((i: any) => ({name: i.name}))
+    },
+    async count (ctx, pi, params) {
+      return 0
+    },
+    async getByPk (ctx, pi, pk) {
+      return {}
+    },
+    async add (ctx, pi, el) {
+      return 0
+    },
+    async updateByPk (ctx, pi, pk, update) {
+      return 0
+    },
+    async deleteByPk (ctx, pi, pk) {
+      return 0
+    },
+  },
 };
 
 export default databaseCollection;

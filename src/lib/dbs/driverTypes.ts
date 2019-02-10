@@ -38,7 +38,8 @@ export type Collection<TContext extends InstanceContext, TPathInfo extends Colle
   collections: CollectionsMap<TContext>
   parseCollPath (cp: CollPath): TPathInfo
   getElementSchema (ctx: TContext, pathInfo: TPathInfo): Promise<CollectionElementSchema>
-} & CollectionMethods<TContext, TPathInfo>
+  methods: CollectionMethods<TContext, TPathInfo>
+}
 
 export type CollectionsMap<TContext extends InstanceContext> = {
   [name: string]: Collection<TContext, CollectionPathInfo>
