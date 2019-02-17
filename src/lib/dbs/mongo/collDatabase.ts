@@ -1,7 +1,7 @@
 import {Collection} from '../driverTypes';
 import MongoContext from './context';
 import {MongoPathInfo} from './types';
-import collCollection from './collCollection';
+import collTables from './collTable';
 
 const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
   name: 'Database',
@@ -20,8 +20,8 @@ const databaseCollection: Collection<MongoContext, MongoPathInfo> = {
   parseCollPath (collPath) {
     return Object.assign({}, ...collPath.map(cp => ({[cp.collection]: cp.pk})))
   },
-  collections: {
-    collections: collCollection
+  children: {
+    tables: collTables
   },
   methods: {
     async query (ctx, pi, args) {

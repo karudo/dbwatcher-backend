@@ -1,9 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser'
-// import {createRPC} from './lib/rpc'
 import {GearJson} from 'gear-json'
 import {CollPath} from './lib/dbs/driverTypes'
-import {ObjectID} from 'bson'
+import {ObjectID} from 'mongodb'
 import {DriverInstancesManager} from './lib/dbs/manager';
 import {drivers} from './lib/drivers'
 
@@ -15,23 +14,6 @@ app.use(bodyParser.json());
 app.get('/schema', (req, res) => {
   res.json({schema: 'example'});
 });
-
-/*
-app.post('/rpc', createRPC({
-  async test (args) {
-    return {
-      withArgs: args
-    }
-  },
-  async testMongo (args) {
-    const res = {} // await queryMongo();
-
-    return gearJson.packObject(res)
-  },
-}));
-*/
-
-
 
 const pastures = require('../config/pastures.json');
 const s = new GearJson([{

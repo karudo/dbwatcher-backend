@@ -30,8 +30,8 @@ export default class MongoContext implements InstanceContext {
 
   async getSchema () {
     return {
-      collections: {
-        databases: collDatabase,
+      children: {
+        database: collDatabase,
       },
     }
   }

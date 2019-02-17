@@ -48,7 +48,7 @@ export class DriverInstancesManager {
     const ctx = await this.getContext(pastureCode);
     const schema = await ctx.getSchema();
     const collection: Collection<InstanceContext, CollectionPathInfo> = path.reduce(
-      (sc, step) => sc.collections[step.collection],
+      (sc, step) => sc.children[step.collection],
       schema as Collection<InstanceContext, CollectionPathInfo>
     );
     const pathInfo = collection.parseCollPath(path);

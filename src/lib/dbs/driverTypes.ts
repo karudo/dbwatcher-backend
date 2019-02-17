@@ -24,7 +24,6 @@ export type InstanceContext = {
 }
 
 export type CollectionMethods<TContext, TPathInfo> = {
-  // beforeExec? (ctx: TContext, pi: TPathInfo): Promise<void>
   query (ctx: TContext, pathInfo: TPathInfo, args: object): Promise<object[]>
   count (ctx: TContext, pathInfo: TPathInfo, args: object): Promise<number>
   getByPk (ctx: TContext, pathInfo: TPathInfo, args: {pk: PkValue}): Promise<object>
@@ -35,18 +34,17 @@ export type CollectionMethods<TContext, TPathInfo> = {
 
 export type Collection<TContext extends InstanceContext, TPathInfo extends CollectionPathInfo> = {
   name: string
-  collections: CollectionsMap<TContext>
   parseCollPath (cp: CollPath): TPathInfo
   getElementSchema (ctx: TContext, pathInfo: TPathInfo): Promise<CollectionElementSchema>
   methods: CollectionMethods<TContext, TPathInfo>
-}
+} & DriverSchema<TContext>
 
 export type CollectionsMap<TContext extends InstanceContext> = {
   [name: string]: Collection<TContext, CollectionPathInfo>
 }
 
 export type DriverSchema<TContext extends InstanceContext> = {
-  collections: CollectionsMap<TContext>
+  children: CollectionsMap<TContext>
 }
 
 export type DriverInstanceConstructor<TContext extends InstanceContext> = {

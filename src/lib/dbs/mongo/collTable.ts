@@ -2,8 +2,8 @@ import {Collection} from '../driverTypes';
 import MongoContext from './context';
 import {MongoPathInfo} from './types';
 
-const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
-  name: 'Collection',
+const tableCollection: Collection<MongoContext, MongoPathInfo> = {
+  name: 'Table',
   async getElementSchema (ctx) {
     return {
       strong: false,
@@ -19,7 +19,7 @@ const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
   parseCollPath (collPath) {
     return Object.assign({}, ...collPath.map(cp => ({[cp.collection]: cp.pk})))
   },
-  collections: {},
+  children: {},
   methods: {
     async query (ctx, pi, args) {
       const coll = ctx.getColl(pi.databases, pi.collections);
@@ -44,4 +44,4 @@ const collectionCollection: Collection<MongoContext, MongoPathInfo> = {
   },
 };
 
-export default collectionCollection;
+export default tableCollection;
