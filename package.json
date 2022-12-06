@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/karudo/dbwatcher-backend#readme",
   "dependencies": {
-    "body-parser": "1.19.0",
-    "express": "4.17.1",
+    "body-parser": "1.20.1",
+    "express": "4.18.2",
     "gear-json": "0.2.0",
     "lodash": "^4.17.19",
     "mongodb": "3.2.7",
